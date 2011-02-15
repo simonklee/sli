@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>slides</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="http://fonts.googleapis.com/css?family=Nobile:regular,italic" rel="stylesheet" type="text/css">
+    <style>
+    body {
+        background-color: #ffffff;
+        color: #1f1f1f;
+        font: 14px/1.5 'Nobile', sans-serif;
+    }
+    h1, h2 {
+        font-weight: normal;
+    }
+    h1 {
+        font-size: 48px;
+    }
+    h2 {
+        border-bottom: 1px solid #efefef;
+        font-size: 32px;
+    }
+    div#sli {
+        position: relative;
+        width: 570px;
+        height: 400px;
+        overflow: visible;
+        border: 5px solid red;
+    }
+    div.sli_window {
+        position: relative;
+    }
+    div.slide {
+        float: left;
+        /* position: absolute;*/
+    }
+    div.slide_nav {
+        /* position: absolute;
+        bottom: 0px; */
+    }
+
+    </style>
+</head>
+<body>
+    <div id="sli">
+        <div class="sli_window">
+            <div class="slide">
+                <h2>Slide 1</h2>
+                <img src="img/slide.jpg">
+            </div>
+            <div class="slide">
+                <h2>Slide 2</h2>
+                <img src="img/slide-2.jpg">
+            </div>
+        </div>
+        <div class="slide_nav">
+            <a href="#" class="prev">prev</a>
+            <a href="#" class="next">next</a>
+        </div>
+   </div>
+   <script type="text/javascript" src="jquery-1.5.min.js"></script>
+   <script type="text/javascript" src="sli.jquery.js"></script>
+   <script type="text/javascript">
+   $(document).ready(function(){
+       $('#sli').sli();        
+   });
+   </script>
+</body>
+</html>
