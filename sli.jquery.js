@@ -1,8 +1,8 @@
 (function($){
-    $.fn.sli = function( option ) {
+    $.fn.sli = function(option) {
         option = $.extend({}, $.fn.sli.option, option);
 
-        return this.each(function(){
+        return this.each(function() {
             // wrap slides in control container, make sure slides are block level
             $(this).children('.slide').wrapAll('<div class="slides_control"/>');
 
@@ -48,13 +48,13 @@
             control.children(':eq(' + current + ')').fadeIn(option.fadeSpeed);
 
             // next button
-            $('.' + option.next ,elem).click(function(e){
+            $('.' + option.next, elem).click(function(e) {
                 e.preventDefault();
                 animate('next');
             });
 
             // previous button
-            $('.' + option.prev, elem).click(function(e){
+            $('.' + option.prev, elem).click(function(e) {
                 e.preventDefault();
                 animate('prev');
             });
