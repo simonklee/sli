@@ -13,7 +13,6 @@
                 height = control.children().outerHeight(),
                 next = 0, prev = 0, current = 0, active, position, direction;
 
-            console.log(width, height);
             if (total < 2) {
                 return;
             }
@@ -108,20 +107,20 @@
                 }, option.slideSpeed, function() {
                     // after animation reset control position
                     control.css({
-                    left: -width
+                        left: -width
                     });
 
                     // reset and show next
                     control.children(':eq('+ next +')').css({
-                    left: width,
-                    zIndex: 5
+                        left: width,
+                        zIndex: 5
                     });
 
                     // reset previous slide
                     control.children(':eq('+ prev +')').css({
-                    left: width,
-                    display: 'none',
-                    zIndex: 0
+                        left: width,
+                        display: 'none',
+                        zIndex: 0
                     });
 
                     // end of animation
