@@ -54,19 +54,7 @@
         <div class="slide">
             <img src="img/slide-2.jpg" width="570" height="270" alt="Slide 2">
         </div>
-        <div class="slide">
-            <img src="img/slide-3.jpg" width="570" height="270" alt="Slide 3">
-        </div>
-        <div class="slide">
-            <img src="img/slide-4.jpg" width="570" height="270" alt="Slide 4">
-        </div>
-        <div class="slide">
-            <img src="img/slide-5.jpg" width="570" height="270" alt="Slide 5">
-        </div>
-        <div class="slide">
-            <img src="img/slide-6.jpg" width="570" height="270" alt="Slide 6">
-        </div>
-        <div class="slide">
+         <div class="slide">
             <img src="img/slide-7.jpg" width="570" height="270" alt="Slide 7">
         </div>
 
@@ -77,7 +65,11 @@
 	<script src="sli.jquery.js"></script>
     <script>
         $(function(){
-            $('#sli').sli();
+            $('#sli').sli({
+                'loadMore': function() {
+                    return ['<div class="slide"><h3>A new slide added during runtime</h3></div>'];
+                }
+            });
         });
 	</script>
 

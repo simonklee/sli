@@ -26,7 +26,7 @@
             control.children().css({
                 position: 'absolute',
                 top: 0, 
-                left: control.children().outerWidth(),
+                left: width,
                 zIndex: 0,
                 display: 'none'
             });
@@ -68,15 +68,25 @@
 
             function appendSlides(slides) {
                 for (var i = 0; i < slides.length; i++) {
-                    control.append($(slides[i]));
+                    var slide = $(slides[i]).css({
+                        position: 'absolute',
+                        top: 0, 
+                        left: width,
+                        zIndex: 0,
+                        display: 'none'
+                    });
+                    control.append(slide);
                 }
 
                 total += slides.length;
             }
 
             function animate(direction) {
-                if (active) 
+                if (active || (loading && total === current + 1)) {
+                    if (loading)
+                        console.log('loading!!');
                     return;
+                }
 
                 active = true;
                 switch(direction) {
@@ -151,7 +161,7 @@
         fadeSpeed: 30, // fade in speed for first slide in ms
         slideSpeed: 150, // transition speed between slides in ms
         loadMore: function() { // should return an array of new slides
-            return new Array();
+            return [];
         } 
     };
 })(jQuery);
