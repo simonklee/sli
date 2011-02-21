@@ -11,7 +11,7 @@
 				total = control.children().size(),
 				width = control.children().outerWidth(),
 				height = control.children().outerHeight(),
-				next = 0, prev = 0, current = 0, active, clicked, position, direction, imageParent;
+				next = 0, prev = 0, current = 0, active, clicked, position, direction;
 
             console.log(width, height);
 			if (total < 2) {
@@ -47,97 +47,19 @@
 
             control.children(':eq(' + current + ')').fadeIn(option.fadeSpeed);
 			
-			// pause on mouseover
-			if (option.hoverPause && option.play) {
-				control.children().bind('mouseover',function(){
-					// on mouse over stop
-					stop();
-				});
-				control.children().bind('mouseleave',function(){
-					// on mouse leave start pause timeout
-					pause();
-				});
-			}
-			
 			// next button
 			$('.' + option.next ,elem).click(function(e){
 				e.preventDefault();
-				if (option.play) {
-					pause();
-				};
 				animate('next');
 			});
 			
 			// previous button
 			$('.' + option.prev, elem).click(function(e){
 				e.preventDefault();
-				if (option.play) {
-					 pause();
-				};
 				animate('prev');
 			});
 			
-			// click handling 
-			$('.' + option.paginationClass + ' li a', elem ).click(function(){
-				// pause slideshow
-				if (option.play) {
-					 pause();
-				};
-				// get clicked, pass to animate function					
-				clicked = $(this).attr('href').match('[^#/]+$');
-				return false;
-			});
-			
-			// click handling 
-			$('a.link', elem).click(function(){
-				// pause slideshow
-				if (option.play) {
-					 pause();
-				};
-				// get clicked, pass to animate function					
-				clicked = $(this).attr('href').match('[^#/]+$') - 1;
-				return false;
-			});
-		
-			if (option.play) {
-				// set interval
-				playInterval = setInterval(function() {
-					animate('next');
-				}, option.play);
-				// store interval id
-				elem.data('interval',playInterval);
-			};
-				
-			function stop() {
-				// clear interval from stored id
-				clearInterval(elem.data('interval'));
-			};
-
-			function pause() {
-				if (option.pause) {
-					// clear timeout and interval
-					clearTimeout(elem.data('pause'));
-					clearInterval(elem.data('interval'));
-					// pause slide show for option.pause amount
-					pauseTimeout = setTimeout(function() {
-						// clear pause timeout
-						clearTimeout(elem.data('pause'));
-						// start play interval after pause
-						playInterval = setInterval(	function(){
-							animate("next");
-						},option.play);
-						// store play interval
-						elem.data('interval',playInterval);
-					},option.pause);
-					// store pause interval
-					elem.data('pause',pauseTimeout);
-				} else {
-					// if no pause, just stop
-					stop();
-				}
-			};
-			
-			function animate(direction, clicked) {
+			function animate(direction) {
 				if (!active) {
 					active = true;
 					switch(direction) {
@@ -154,7 +76,7 @@
 							direction = -width * 2;
 							// store new current slide
 							current = next;
-						break;
+						    break;
 						case 'prev':
 							// change current slide to previous
 							prev = current;
@@ -168,7 +90,7 @@
 							direction = 0;		
 							// store new current slide
 							current = next;
-						break;
+						    break;
 					}
 
                     // move next slide to right of previous
@@ -176,7 +98,6 @@
                         left: position,
                         display: 'block'
                     });
-                    option.animationStart();
 
                     // animate control
                     control.animate({
@@ -202,7 +123,6 @@
                         });
 
                         // end of animation
-                        option.animationComplete(next + 1);
                         active = false;
                     });
 				}
@@ -214,11 +134,6 @@
 		next: 'next', 
 		prev: 'prev', 
 		fadeSpeed: 350, 
-		slideSpeed: 150,
-		play: 0, 
-		pause: 0, 
-		hoverPause: false, 
-		animationStart: function(){},
-		animationComplete: function(){} 
+		slideSpeed: 150
 	};
 })(jQuery);
