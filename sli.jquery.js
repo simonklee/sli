@@ -11,7 +11,7 @@
                 total = control.children().size(),
                 width = control.children().outerWidth(),
                 height = control.children().outerHeight(),
-                next = 0, prev = 0, current = 0, active, position, direction;
+                next = 0, prev = 0, current = 0, active, position, direction, loading;
 
             if (total < 2) {
                 return;
@@ -49,6 +49,14 @@
             // next button
             $('.' + option.next, elem).click(function(e) {
                 e.preventDefault();
+                console.log(total, current);
+
+                if (current + 1 == total && !loading) {
+                    loading = true ;
+                    appendSlides(option.loadMore());
+                    loading = false;
+                }
+
                 animate('next');
             });
 
@@ -58,10 +66,17 @@
                 animate('prev');
             });
 
-            function animate(direction) {
-                if (active) {
-                    return;
+            function appendSlides(slides) {
+                for (var i = 0; i < slides.length; i++) {
+                    control.append($(slides[i]));
                 }
+
+                total += slides.length;
+            }
+
+            function animate(direction) {
+                if (active) 
+                    return;
 
                 active = true;
                 switch(direction) {
@@ -131,9 +146,12 @@
     };
 
     $.fn.sli.option = {
-        next: 'next', 
-        prev: 'prev', 
-        fadeSpeed: 350, 
-        slideSpeed: 150
+        next: 'next', // next button class-name
+        prev: 'prev', // prev button class-name
+        fadeSpeed: 30, // fade in speed for first slide in ms
+        slideSpeed: 150, // transition speed between slides in ms
+        loadMore: function() { // should return an array of new slides
+            return new Array();
+        } 
     };
 })(jQuery);
