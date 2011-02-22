@@ -11,7 +11,7 @@
                 total = control.children().size(),
                 width = control.children().outerWidth(),
                 height = control.children().outerHeight(),
-                next = 0, prev = 0, current = 0, active, position, direction, loading;
+                next = 0, prev = 0, current = 0, buf = 1, active, loading;
 
             if (total < 2) {
                 return;
@@ -51,7 +51,7 @@
                 e.preventDefault();
                 console.log(total, current);
 
-                if (current + 1 == total && !loading) {
+                if (current + buf >= total && !loading) {
                     loading = true ;
                     appendSlides(option.loadMore());
                     loading = false;
@@ -62,6 +62,7 @@
 
             // previous button
             $('.' + option.prev, elem).click(function(e) {
+                console.log(total, current);
                 e.preventDefault();
                 animate('prev');
             });
@@ -77,12 +78,13 @@
                     });
                     control.append(slide);
                 }
-
                 total += slides.length;
             }
 
             function animate(direction) {
-                if (active || (loading && total === current + 1)) {
+                var position;
+
+                if (active) {
                     if (loading)
                         console.log('loading!!');
                     return;
