@@ -18,7 +18,6 @@
             }
 
             $(elem).css({
-                overflow: 'hidden',
                 position: 'relative'
             });
 
