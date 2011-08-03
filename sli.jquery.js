@@ -44,16 +44,13 @@
             });
 
             control.children(':eq(' + current + ')').fadeIn(option.fadeSpeed);
-
+            
             // next button
             $('.' + option.next, elem).click(function(e) {
                 e.preventDefault();
-                console.log(total, current);
 
-                if (current + buf >= total && !loading) {
-                    loading = true ;
-                    appendSlides(option.loadMore());
-                    loading = false;
+                if (option.play) {
+                    pause();
                 }
 
                 animate('next');
@@ -61,10 +58,62 @@
 
             // previous button
             $('.' + option.prev, elem).click(function(e) {
-                console.log(total, current);
                 e.preventDefault();
+
+                if (option.play) {
+                    pause();
+                }
+
                 animate('prev');
             });
+
+            if (option.play) {
+                // start play timer
+				playInterval = setInterval(function() {
+					animate('next');
+				}, option.play);
+                
+				elem.data('interval', playInterval);
+
+                // pause on mouseover
+				control.children().bind('mouseover', function() {
+					stop();
+				});
+
+				control.children().bind('mouseleave',function() {
+					pause();
+				});
+			}
+
+			function stop() {
+				clearInterval(elem.data('interval'));
+			};
+            
+            function pause() {
+				if (option.pause) {
+					clearTimeout(elem.data('pause'));
+					clearInterval(elem.data('interval'));
+
+					// pause slide show for option.pause amount
+					pauseTimeout = setTimeout(function() {
+						clearTimeout(elem.data('pause'));
+
+						// start play interval after pause
+						playInterval = setInterval(	function() {
+							animate("next");
+						},option.play);
+
+						// store play interval
+						elem.data('interval', playInterval);
+					}, option.pause);
+
+					// store pause interval
+					elem.data('pause', pauseTimeout);
+
+				} else {
+					stop();
+				}
+			};
 
             function appendSlides(slides) {
                 for (var i = 0; i < slides.length; i++) {
@@ -84,14 +133,21 @@
                 var position;
 
                 if (active) {
-                    if (loading)
-                        console.log('loading!!');
+                    /*if (loading)
+                        console.log('loading!!');*/
                     return;
                 }
 
                 active = true;
                 switch(direction) {
                     case 'next':
+
+                        if (current + buf >= total && !loading) {
+                            loading = true ;
+                            appendSlides(option.loadMore());
+                            loading = false;
+                        }
+
                         // change current slide to previous
                         prev = current;
                         // get next from current + 1
@@ -157,11 +213,13 @@
     };
 
     $.fn.sli.option = {
-        next: 'next', // next button class-name
-        prev: 'prev', // prev button class-name
-        fadeSpeed: 30, // fade in speed for first slide in ms
-        slideSpeed: 150, // transition speed between slides in ms
-        loadMore: function() { // should return an array of new slides
+        next: 'next',           // next button class-name
+        prev: 'prev',           // prev button class-name
+        play: 0,                // duration between automatic play 
+        pause: 0,               // amount of time to pause 
+        fadeSpeed: 30,          // fade in speed for first slide in ms
+        slideSpeed: 150,        // transition speed between slides in ms
+        loadMore: function() {  // should return an array of new slides
             return [];
         } 
     };

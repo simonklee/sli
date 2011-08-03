@@ -72,6 +72,8 @@
     <script>
         $(function(){
             $('#sli').sli({
+                'play': 8000,
+                'pause': 15000,
                 'loadMore': function() {
                     return ['<div class="slide"><h3>A new slide added during runtime</h3></div>'];
                 }
